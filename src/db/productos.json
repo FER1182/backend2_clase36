@@ -1,0 +1,73 @@
+[{
+    "name": "calculadora",
+    "price": "1200",
+    "urlFoto": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-128.png",
+    "id": 1,
+    "timestamp": "11/05/2022",
+    "description": "affffasss",
+    "codigo": "22333",
+    "stock": 20
+}, {
+    "name": "tv",
+    "price": "50000",
+    "urlFoto": "https://cdn1.iconfinder.com/data/icons/social-media-outline-6/128/SocialMedia_Instagram-Outline-128.png",
+    "id": 2,
+    "timestamp": "11/05/2022",
+    "description": "affffasss",
+    "codigo": "22333",
+    "stock": 20
+}, {
+    "name": "Celular",
+    "price": "50000",
+    "urlFoto": "https://cdn4.iconfinder.com/data/icons/e-commerce-and-online-shopping-flat/512/online_shopping_buy_location_cart_shop_store-128.png",
+    "id": 3,
+    "timestamp": "11/05/2022",
+    "description": "affffasss",
+    "codigo": "22333",
+    "stock": 20
+}, {
+    "timestamp": "8/14/2022",
+    "name": "fernando",
+    "description": "wfefw",
+    "codigo": "migKRU",
+    "urlFoto": "https://cdn3.iconfinder.com/data/icons/education-209/64/pencil-pen-stationery-school-128.png",
+    "price": "5300",
+    "stock": "44",
+    "id": 4
+}, {
+    "timestamp": "8/14/2022",
+    "name": "fer",
+    "description": "wfefw",
+    "codigo": "aDs6u8",
+    "urlFoto": "https://cdn3.iconfinder.com/data/icons/education-209/64/pencil-pen-stationery-school-128.png",
+    "price": "3000",
+    "stock": "4",
+    "id": 5
+}, {
+    "timestamp": "8/14/2022",
+    "name": "Teclado",
+    "description": "teclado mecanico",
+    "codigo": "145as45",
+    "urlFoto": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-128.png",
+    "price": "5300",
+    "stock": "4",
+    "id": 6
+}, {
+    "timestamp": "8/14/2022",
+    "name": "vaso",
+    "description": "vaso amarillo",
+    "codigo": "115sss11",
+    "urlFoto": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-128.png",
+    "price": "1200",
+    "stock": "15",
+    "id": 7
+}, {
+    "timestamp": "8/15/2022",
+    "name": "tv",
+    "description": "wfefw",
+    "codigo": "asdfasdf",
+    "urlFoto": "https://cdn3.iconfinder.com/data/icons/education-209/64/clock-stopwatch-timer-time-128.png",
+    "price": "3000",
+    "stock": "15",
+    "id": 8
+}]
