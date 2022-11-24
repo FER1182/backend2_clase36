@@ -110,7 +110,7 @@ app.use(express.json());
 
 
 
-/* app.post(
+ app.post(
   "/login",
   passport.authenticate("local", {
     failureRedirect: "login-error",
@@ -120,9 +120,9 @@ app.use(express.json());
 
     res.redirect("/datos");
   }
-); */
+); 
 
-/* app.post("/register", (req, res) => {
+ app.post("/register", (req, res) => {
   const { email, password, nombre, direccion, edad, telefono, foto } = req.body;
   User.findOne({ email }, async (err, user) => {
     if (err) console.log(err);
@@ -143,7 +143,7 @@ app.use(express.json());
     }
   });
 });
- */
+ 
 app.get("/info", (req, res) => {
   let datos = {
     argumentos: minimist(process.argv.slice(2)),
