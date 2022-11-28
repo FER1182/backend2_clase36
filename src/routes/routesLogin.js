@@ -23,52 +23,10 @@ const elapsed = Date.now();
 const hoy = new Date(elapsed)
 const diaHoy= hoy.toLocaleDateString()
 
-const app = express();
-const LocalStrategy = Strategy;
-
 /*============================[Middlewares]============================*/
 
 /*----------- Session -----------*/
-app.use(cookieParser());
-app.use(
-  session({
-    secret: "1234567890!@#$%^&*()",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 20000, //20 seg
-    },
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
 
-passport.use(
-  new LocalStrategy((email, password, done) => {
-   
-
-     User.findOne({ email }, (err, user) => {
-     console.log("dentro del local")
-      if (err) console.log(err);
-      if (!user) return done(null, false);
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        console.log(user);
-        if (err) console.log(err);
-        if (isMatch) return done(null, user);
-        return done(null, false);
-      });
-    }); 
-  })
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  return done(null, user);
-});
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -87,9 +45,7 @@ routesLogin.get("/form", (req, res) => {
 
 routesLogin.post(
   "/login",
-  passport.authenticate("local", {
-    failureRedirect: "login-error",
-  }),
+  passport.authenticate("local"),
   (req, res) => {
     loggerTodos.info(`metodo ${req.method} Ruta  ${req.originalUrl} `);
     console.log("no entrac")
@@ -98,14 +54,14 @@ routesLogin.post(
 ); 
 
  routesLogin.post("/register", (req, res) => {
-  const { email, password, nombre, direccion, edad, telefono, foto } = req.body;
-  User.findOne({ email }, async (err, user) => {
+  const { name, password, nombre, direccion, edad, telefono, foto } = req.body;
+  User.findOne({ name }, async (err, user) => {
     if (err) console.log(err);
     if (user) res.render("register-error");
     if (!user) {
       const hashedPassword = await bcrypt.hash(password, 8);
       const newUser = new User({
-        email,
+        name,
         password: hashedPassword,
         nombre,
         direccion,

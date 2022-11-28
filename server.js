@@ -8,12 +8,8 @@ import bcrypt from "bcrypt";
 import passport from "passport";
 import { Strategy } from "passport-local";
 import "./src/db/config.js";
-import { fork } from "child_process";
-import minimist from "minimist";
-import { clearScreenDown } from "readline";
 import compression from "compression";
 import log4js from "log4js";
-import { emitWarning } from "process";
 import routesProductos from "./src/routes/routesProductos.js";
 import carritoRoutes from "./src/routes/routesCarrito.js";
 import routesLogin from "./src/routes/routesLogin.js";
@@ -26,7 +22,6 @@ const app = express();
 app.use(compression());
 
 /*============================[Base de datos]============================*/
-const usuariosDB = [];
 
 /*============================[logs]============================*/
 log4js.configure({
@@ -67,13 +62,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(
-  new LocalStrategy((email, password, done) => {
-    if (email == "pepe" && password == "1234")
-      return done(null, { id: 1, nombre: "pepe" });
-
-    done(null, false);
-
-    /* User.findOne({ email }, (err, user) => {
+  new LocalStrategy((username, password, done) => {
+    
+     User.findOne({ username }, (err, user) => {
       if (err) console.log(err);
       if (!user) return done(null, false);
       bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -82,7 +73,7 @@ passport.use(
         if (isMatch) return done(null, user);
         return done(null, false);
       });
-    }); */
+    }); 
   })
 );
 
@@ -98,7 +89,7 @@ passport.deserializeUser(async (id, done) => {
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
-app.use("/",routesLogin);
+//app.use("/",routesLogin);
 app.use("/productos",routesProductos);
 app.use("/cart",carritoRoutes);
  
@@ -107,10 +98,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 /*============================[Rutas]============================*/
+app.get("/form", (req, res) => {
+  res.render("form");
+});
 
 
-
- app.post(
+app.post(
   "/login",
   passport.authenticate("local", {
     failureRedirect: "login-error",
@@ -121,16 +114,41 @@ app.use(express.json());
     res.redirect("/datos");
   }
 ); 
+app.get("/", (req, res) => {
+  // loggerTodos.info(`metodo ${req.method} Ruta  ${req.originalUrl}`);
+  if (req.session.nombre) {
+    res.redirect("/productos");
+  } else {
+    res.redirect("/login");
+  }
+});
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.get("/login-error", (req, res) => {
+  res.render("login-error");
+});
 
- app.post("/register", (req, res) => {
-  const { email, password, nombre, direccion, edad, telefono, foto } = req.body;
-  User.findOne({ email }, async (err, user) => {
+app.get("/register", (req, res) => {
+  //loggerWarn.warn(`metodo ${req.method} Ruta  ${req.originalUrl}`);
+  res.render("register");
+});
+
+app.get("*", (req, res) => {
+  const html = `<div> direccion no valida </div>`;
+  res.status(404).send(html);
+});
+
+
+   app.post("/register", (req, res) => {
+  const { name, password, nombre, direccion, edad, telefono, foto } = req.body;
+  User.findOne({ name }, async (err, user) => {
     if (err) console.log(err);
     if (user) res.render("register-error");
     if (!user) {
       const hashedPassword = await bcrypt.hash(password, 8);
       const newUser = new User({
-        email,
+        name,
         password: hashedPassword,
         nombre,
         direccion,
@@ -143,20 +161,7 @@ app.use(express.json());
     }
   });
 });
- 
-app.get("/info", (req, res) => {
-  let datos = {
-    argumentos: minimist(process.argv.slice(2)),
-    plataforma: process.platform,
-    versionNode: process.version,
-    memoriaReservada: process.memoryUsage(),
-    ejecutable: process.execPath,
-    pid: process.pid,
-    carpetaProyecto: process.cwd(),
-  };
-
-  res.send(datos);
-});
+  
 
 
 
